@@ -1,0 +1,309 @@
+
+declare the variable 
+(the name of var )  (the type);
+----------------------------------
+first right click on the folder you made it 
+then pl/sql editor
+then chosee the item you want  
+----------------------------------
+declare
+
+begin 
+======
+the code is here 
+======
+
+end ;
+---------------------------------
+ex 
+-- in tregger named one butum ...
+begin 
+massage('you are welcome ');
+message ('   '); // عشان استدعي البوكس بحط هاي الجملة 
+:t1  :='you are welcome '; // عشان اعدل النص ب ايتم  
+x:=10 // لتغيير قيمة متغير 
+
+message(:t1); //لقراءة المسج 
+end ;
+---------------------------------
+*tregger على مستوى الايتم 
+canvases --> the editor 
+شاشة العرض
+---------------------------------
+declare
+var number(6,2);	// بتعامل مع التعريف نفس ال sql 
+
+begin
+var :=:t1;  
+var := var*1.25; تعديل القيمة 
+
+message('your value is: '||:t1);	//طباعة قيمة المتغير الجديدة 
+end;
+---------------------------------
+declare
+varr number(6,2); -- var1 EMPLOYEES.salary%type;
+begin
+	select SALARY into varr	from EMPLOYEES where EMPLOYEE_ID=T1;
+varr:= varr*1.25;
+message('your value is: '||:T1); -- نطبع ال item  عشان نربط الكود بالتريجر 
+message('   ');
+end;
+---------------------------------
+declare
+v_sal EMPLOYEES.salary%type;
+v_name EMPLOYEES.first_name%type;
+begin
+	select 	SALARY,first_name
+ into v_sal, v_name from EMPLOYEES where EMPLOYEE_ID=:T1;
+v_sal:= v_sal*1.25;
+message('the salary for : '||v_name||'is  : '||v_sal); 
+message('   ');
+end;
+---------------------------------
+الايتم دائما قبله : 
+لما بدي اربط ايتم ب كود بستخدم اسم الايتم مش متغير جديد
+declare
+begin
+	select 	SALARY,first_name
+ into :oldsalary, :Fname from 
+ EMPLOYEES where EMPLOYEE_ID=:T1;
+:newsalary:= :oldsalary*1.25;
+end
+
+
+declare
+num number(4):=0;
+begin
+	select SALARY into num	from
+	 EMPLOYEES where EMPLOYEE_ID=T1;
+	if num<1000 then
+		n2:=num *1.25 ;
+	else if num >1000 and num <2000 then  
+		n2:=num*1.15;
+	else if num>2000 and num <3000 then 
+		n2:=num*1.10;
+	else 
+		n2:=num *1.05;
+		end if;
+
+
+
+
+
+================================
+begin 
+	update employees set salary=:n2 
+	where employee_id=:n1;
+	commit;
+message('salary has been updated ');
+message('   ');
+end;
+
+--------------------------------------
+begin 
+	select sysdate into :dis1 from dual;
+	end;
+
+تريقر على مستوى البلوك كامل  
+باقي التريقر الي عملناهم كانو على مستوى الايتم 
+---------------------------------------
+--clear_block;
+لح\ف جميع القيم من الايتم كاملين 
+:n1:=''; لح\ق قيمة من ايتم معين 
+:n2:='';
+go_item('n1');
+end;
+
+
+
+1 : 
+لجعل لكل ايتم عدد من الريكورد 
+2: 
+لمنع الكتابة بالايتم اغلاق العنصر 
+3:
+بقدر اغير على الارتفاع والعرض الخاص بكل ايتم 
+
+
+الله يسامحك 
+
+
+
+
+
+declare the visual atributes --> just dubble click on it 
+*كل تغير على المتغير العام بيتغير على جميع المتغيرات المحدد في خصائصها هذا الايتم 
+* on the button named enable :
+triger (when button bressed)->
+
+set_item_property (itemname ,the action , property_the value) 
+the value ->true or false
+enabled button 
+set_item_property('r1',enabled,property_true);
+set_item_property('r2',enabled,property_true);
+set_item_property('r3',enabled,property_true);
+ desabled 
+set_item_property('r1',enabled,property_false);
+set_item_property('r2',enabled,property_false);
+set_item_property('r3',enabled,property_false);
+button 3
+set_item_property ('r3',enabled);
+
+declare 
+r varchar2(30);
+begin 
+r:=get_item_property('r1',enabled);
+if r='true then 
+set_item_property ('r1',enabled,property_false);
+set_item_property ('r',label,desable);
+r:=0;
+else 
+set_item_property ('r1',enabled,property_true);
+set_item_property ('r',label,enable);
+r:=1;
+
+*set --> بتعدل على القيمة 
+*get --> بتقرأ الفيمة 
+
+
+---------------------     ------------------
+to declare global variable --> put the declaration in the outer begin :
+declare 
+(global var)
+begin 
+declare
+(var)
+begin 
+end ;
+end ;
+to call the global variable -->
+:global var_name;
+
+-------------exception-------------
+ex:
+declare
+v1 number(5);
+begin
+select std_name into :std_n from students 
+where std_id=:std_ids;
+v1:='abs';
+exception 
+when no_data_found then 
+..
+begin
+select std_name into :std_n from grad_students  -- to dubblecate searching about item
+where std_id=:std_ids;
+exception 
+.. 
+end;
+..
+when others then 
+..
+..
+when value_eror then  -- work when no matching types / size 
+..
+..
+
+end;
+* the compiler turn on one exception like switch statment 
+*when you need a nested exception you must do a nested block 
+*لانه كل بلوك اله اكسبشن واحد 
+{
+begin 
+exception
+..
+end
+}
+
+
+
+
+
+
+
+to declare global variable --> put the declaration in the outer begin :
+declare 
+(global var)
+begin 
+declare
+(var)
+begin 
+end ;
+end ;
+to call the global variable -->
+:global var_name;
+
+-----------------------------exception-------------------
+ex:
+declare
+v1 number(5);
+begin
+select std_name into :std_n from students 
+where std_id=:std_ids;
+v1:='abs';
+exception 
+when no_data_found then 
+..
+begin
+select std_name into :std_n from grad_students  -- to dubblecate searching about item
+where std_id=:std_ids;
+exception 
+.. 
+end;
+..
+when others then 
+..
+..
+when value_eror then  -- work when no matching types / size 
+..
+..
+
+end;
+* the compiler turn on one exception like switch statment 
+*when you need a nested exception you must do a nested block 
+*لانه كل بلوك اله اكسبشن واحد 
+{
+begin 
+exception
+..
+end
+}
+--------------------------------------------------------------------------------------------------------
+
+
+
+alert 
+declare 
+	alt varchar2(20);
+begin 
+alt:=show_alert('INSEMP');
+end;
+
+
+ BEGIN 
+if show_alert('insemp') =alert_button2 then clear_block;
+else 
+:text11:='nooooooooooooo ';
+end if;
+end;
+
+
+ BEGIN 
+if show_alert('insemp') =alert_button2 
+	then clear_block;
+else 
+:text_2:='nooooooooooooo ';
+end if;
+ end;
+ -- when bress yes (botton 1) 
+ --clear block
+ --else write the messege nooo 
+ 
+
+
+ليش مسحتي كلشي
+؟؟؟؟؟؟؟؟؟؟؟  
+ما مسحت لقيته فاضي 
+
+
+
+-----------------------------------------------
